@@ -2,6 +2,7 @@ require("dotenv").config();
 const OpenAI = require("openai");
 const SYSTEM_PROMPT = require('./Prompts/system_prompts');
 const clonedSiteCommand = require('./feature');
+const readline = require("readline");
 
 const client = new OpenAI()
 
@@ -9,7 +10,7 @@ const TOOL_MAP = {
   clonedSiteCommand : clonedSiteCommand
 };
 
-async function main(){
+async function main(input){
   const SYS_PROMPT = SYSTEM_PROMPT
 
   const messages = [
@@ -19,7 +20,7 @@ async function main(){
     },
     {
       role : 'user',
-      content : "hey create a clone for https://hitesh.ai/"
+      content : input
     }
   ]
 
@@ -74,4 +75,12 @@ async function main(){
 
 }
 
-main()
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.question("👉 Hey how can I help u ? ", (input) => {
+  main(input)
+});
+
